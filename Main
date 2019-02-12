@@ -1,0 +1,172 @@
+import java.util.*;
+
+public class Main {
+
+    private static ArrayList<Album> albums = new ArrayList<Album>();
+    public static void main(String[] args) {
+
+
+        Album PhilColinsHits = new Album("Hits Phil Colins");
+        Album RobbieWilliamsHits = new Album("Hits Robbie Williams");
+
+        PhilColinsHits.addSong("Another Day in Paradise", 5.22);
+        PhilColinsHits.addSong("True Colors",4.34);
+        PhilColinsHits.addSong("Easy Lover",5.02);
+        PhilColinsHits.addSong("You Can't Hurry Love",2.52);
+        PhilColinsHits.addSong("Two Hearts",3.24);
+        PhilColinsHits.addSong("I Wish It Would Rain Down",5.28);
+        PhilColinsHits.addSong("Against All Odds",3.25);
+        PhilColinsHits.addSong("Something Happened on the Way to Heaven",4.51);
+        PhilColinsHits.addSong("Separate Lives",4.06);
+        PhilColinsHits.addSong("Both Sides of the Story",6.37);
+        PhilColinsHits.addSong("One More Night",4.46);
+        PhilColinsHits.addSong("Sussudio",4.21);
+        PhilColinsHits.addSong("Dance into the Light",4.22);
+        PhilColinsHits.addSong("A Groovy Kind of Love",3.29);
+        PhilColinsHits.addSong("In the Air Tonight",5.3);
+        PhilColinsHits.addSong("Take Me Home",5.52);
+        albums.add(PhilColinsHits);
+
+        RobbieWilliamsHits.addSong("Sin Sin Sin",4.09);
+        RobbieWilliamsHits.addSong("Advertising Space",4.37);
+        RobbieWilliamsHits.addSong("Feel",4.22);
+        RobbieWilliamsHits.addSong("Angels",4.25);
+        RobbieWilliamsHits.addSong("Sexed Up",4.2);
+        RobbieWilliamsHits.addSong("Millennium",4.08);
+        RobbieWilliamsHits.addSong("Come Undone",4.38);
+        RobbieWilliamsHits.addSong("Rock DJ",4.18);
+        RobbieWilliamsHits.addSong("Supreme",4.19);
+        RobbieWilliamsHits.addSong("Tripping",4.07);
+        RobbieWilliamsHits.addSong("No Regrets",5.11);
+        RobbieWilliamsHits.addSong("Radio",3.51);
+        RobbieWilliamsHits.addSong("Misunderstood",4.02);
+        RobbieWilliamsHits.addSong("Let Me Entertain You",4.21);
+        albums.add(RobbieWilliamsHits);
+
+
+        LinkedList<Song> playList = new LinkedList<Song>();
+
+        playList.add(PhilColinsHits.arrayListSongs.get(0));
+        playList.add(RobbieWilliamsHits.arrayListSongs.get(1));
+        playList.add(albums.get(0).arrayListSongs.get(2));
+        playList.add(albums.get(0).arrayListSongs.get(6));
+        playList.add(albums.get(1).arrayListSongs.get(4));
+
+        printPlayList(playList);
+
+        play(playList);
+
+    }
+    private static void printPlayList(LinkedList<Song> playList){
+        ListIterator<Song> i = playList.listIterator();
+        System.out.println("===============================");
+        while(i.hasNext()){
+            System.out.println(i.next().getTitle());
+        }
+        System.out.println("===============================");
+    }
+
+    public static void printMenu (){
+        System.out.println(
+                "Select one option from menu: \n" +
+                        "\t 1. Quit \n" +
+                        "\t 2. Play next song \n" +
+                        "\t 3. Play previous song \n" +
+                        "\t 4. Replay current song \n" +
+                        "\t 5. List all songs from the playlist \n" +
+                        "\t 6. Remove current song from playlist"
+        );
+
+    }
+
+    public static void play(LinkedList playList){
+
+        ListIterator<Song> playListIteration = playList.listIterator();
+
+        Scanner scanner = new Scanner(System.in);
+        boolean flag = true;
+        boolean goingForward = true;
+
+        if(!playListIteration.hasPrevious()) {
+            System.out.println("Current song played: " + playListIteration.next());
+        }
+
+        while(flag) {
+
+            printMenu();
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+            switch (choice) {
+                case 1:
+                    System.out.println("Playlist has been switched off");
+                    flag = false;
+                    break;
+                case 2:
+                    if (!goingForward){
+                        if(playListIteration.hasNext()){
+                            playListIteration.next();
+                        }
+                        goingForward = true;
+                    }
+                    if(playListIteration.hasNext()) {
+                        System.out.println("Song changed to: " + playListIteration.next());
+                    }else{
+                        System.out.println("It's already the last song, can't play next one.");
+                    }
+                    break;
+                case 3:
+
+                    if (goingForward){
+                        if (playListIteration.hasPrevious()){
+                            playListIteration.previous();
+                        }
+                        goingForward = false;
+                    }
+                    if (playListIteration.hasPrevious()){
+                        System.out.println("Song changes to: "+ playListIteration.previous());
+                    }else{
+                        System.out.println("It's already the first song, can't play next one");
+                    }
+                    break;
+                case 4:
+                   if(!goingForward) {
+                       if(playListIteration.hasNext()) {
+                           playListIteration.next();
+                       }
+                       if (playListIteration.hasPrevious()){
+                           System.out.println("Song replayed: " + playListIteration.previous());
+                           playListIteration.next();
+                       } else{
+                           System.out.println("Song replayed: " + playListIteration.next());
+                       }
+                       goingForward = true;
+                   } else {
+                       if (playListIteration.hasPrevious()){
+                           System.out.println("Song replayed: " + playListIteration.previous());
+                           playListIteration.next();
+                       } else{
+                           System.out.println("Song replayed: " + playListIteration.next());
+                       }
+                   }
+
+                    break;
+                case 5:
+                    System.out.println((playList));
+                    break;
+                case 6:
+                    if(playList.size() > 0) {
+                        if (playListIteration.hasNext()) {
+                            playListIteration.remove();
+                        } else if (playListIteration.hasPrevious()) {
+                            playListIteration.remove();
+                        }
+                    }
+                    break;
+
+
+
+            }
+        }
+    }
+
+}
