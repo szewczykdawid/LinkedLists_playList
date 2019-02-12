@@ -1,0 +1,65 @@
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.ListIterator;
+
+public class Album {
+
+    private String albumName;
+    ArrayList<Song> arrayListSongs;
+
+    public Album(String albumName) {
+        this.albumName = albumName;
+        this.arrayListSongs = new ArrayList<Song>();
+    }
+
+
+    public int findSong(String title){
+
+      for (int i = 0; i < arrayListSongs.size(); i++){
+          if(arrayListSongs.get(i).getTitle() == title){
+               return i;
+          }
+      }
+      return -1;
+
+    }
+
+    public void addSong(String title, double duration){
+
+        if(findSong(title) != -1) {
+            System.out.println(title + " is already on album.");
+            return;
+        }
+        else {
+            arrayListSongs.add(Song.createSong(title,duration));
+        }
+    }
+
+
+    public void printSongs (){
+
+        if(arrayListSongs.isEmpty() == false){
+            for (int i = 0 ; i < arrayListSongs.size(); i++){
+                System.out.println("\t Title: " + arrayListSongs.get(i).getTitle() + " \t duration: " +arrayListSongs.get(i).getDuration());
+            }
+        } else {
+            System.out.println("Title not found.");
+        }
+
+    }
+
+    public boolean addToPlayList (String title, LinkedList<Song> playList){
+
+        if (findSong(title) != -1) {
+            playList.add(arrayListSongs.get(findSong(title)));
+            System.out.println(title + " has been added to the playlist");
+            return true;
+        }
+        else {
+            System.out.println("Song not found.");
+            return false;
+        }
+    }
+
+    
+}
